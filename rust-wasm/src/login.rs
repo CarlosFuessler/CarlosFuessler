@@ -1,3 +1,5 @@
+use crate::desktop::{render_desktop_icons, DesktopIcon};
+use crate::taskbar::Taskbar;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 
@@ -88,4 +90,15 @@ fn start_desktop(document: &web_sys::Document, _result: LoginResult) {
     if let Some(clock) = document.get_element_by_id("clock") {
         clock.set_inner_html(&time_str);
     }
+
+    // Render desktop icons
+    let icons = vec![
+        DesktopIcon { id: "my-pc".into(), title: "My PC".into(), icon: "💻" },
+        DesktopIcon { id: "projects".into(), title: "Projects".into(), icon: "📁" },
+        DesktopIcon { id: "terminal".into(), title: "Terminal".into(), icon: "⬛" },
+    ];
+    render_desktop_icons(document, &icons);
+
+    // Initialize taskbar
+    let _taskbar = Taskbar::new(document);
 }

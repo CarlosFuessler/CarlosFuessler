@@ -135,3 +135,17 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
   border: var(--border-input); background: var(--white);
 }
 #login-btns { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+
+/* ========== Step 5: Desktop Icon Styles ========== */
+.desktop-icon {
+  display: flex; flex-direction: column; align-items: center;
+  width: 72px; padding: 4px; cursor: pointer; text-align: center;
+  color: white; font-family: var(--font); font-size: var(--font-size);
+  user-select: none;
+}
+.desktop-icon:hover { background: rgba(255,255,255,0.1); }
+.desktop-icon-img { font-size: 32px; }
+#desktop-icons {
+  position: absolute; top: 16px; left: 16px;
+  display: flex; flex-direction: column; flex-wrap: wrap; gap: 8px;
+}

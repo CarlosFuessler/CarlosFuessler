@@ -4,7 +4,9 @@ use wasm_bindgen::closure::Closure;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
+mod desktop;
 mod login;
+mod taskbar;
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {

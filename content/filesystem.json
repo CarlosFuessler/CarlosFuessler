@@ -1,0 +1,17 @@
+[
+  { "name": "About Me", "path": "/about", "type": "dir", "children": [
+    { "name": "about.md", "path": "/about/about.md", "type": "file", "children": null }
+  ]},
+  { "name": "CV & Experience", "path": "/cv", "type": "dir", "children": [
+    { "name": "cv.md", "path": "/cv/cv.md", "type": "file", "children": null }
+  ]},
+  { "name": "Projects", "path": "/projects", "type": "dir", "children": [
+    { "name": "project-1.md", "path": "/projects/project-1.md", "type": "file", "children": null }
+  ]},
+  { "name": "Skills", "path": "/skills", "type": "dir", "children": [
+    { "name": "skills.md", "path": "/skills/skills.md", "type": "file", "children": null }
+  ]},
+  { "name": "Contact", "path": "/contact", "type": "dir", "children": [
+    { "name": "contact.md", "path": "/contact/contact.md", "type": "file", "children": null }
+  ]}
+]

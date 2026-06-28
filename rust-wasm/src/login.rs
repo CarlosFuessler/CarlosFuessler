@@ -1,6 +1,7 @@
 use crate::app_state;
 use crate::desktop::{render_desktop_icons, DesktopIcon};
 use crate::taskbar::Taskbar;
+use crate::vfs::VirtualFS;
 use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
 
@@ -112,8 +113,11 @@ fn start_desktop(document: &web_sys::Document, _result: LoginResult) {
     // Now move taskbar into global state
     app_state::set_taskbar(taskbar);
 
-    // Create a test window to verify everything works
-    app_state::with_wm(|wm| {
-        wm.create_window("test", "Welcome", 500, 300);
+    // Spawn async VFS loading
+    wasm_bindgen_futures::spawn_local(async move {
+        web_sys::console::log_1(&"Loading virtual filesystem...".into());
+        let vfs = VirtualFS::load().await;
+        app_state::set_vfs(vfs);
+        web_sys::console::log_1(&"Virtual filesystem loaded.".into());
     });
 }

@@ -123,14 +123,16 @@ impl Taskbar {
 }
 
 // ---------------------------------------------------------------
-// App launcher (placeholder for now)
+// App launcher
 // ---------------------------------------------------------------
 pub fn launch_app(document: &web_sys::Document, app: &str) {
     match app {
+        "file-manager" => {
+            crate::file_manager::FileManager::open();
+        }
         "shutdown" => trigger_shutdown(document),
         _ => {
             // Placeholder: create a simple window for the app
-            // Real app implementations will come in later tasks
             crate::app_state::with_wm(|wm| {
                 wm.create_window(app, app, 400, 300);
             });

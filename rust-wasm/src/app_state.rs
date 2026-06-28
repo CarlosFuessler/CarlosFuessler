@@ -1,9 +1,12 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use crate::vfs::VirtualFS;
+
 pub struct AppState {
     pub window_manager: crate::window_manager::WindowManager,
     pub taskbar: Option<crate::taskbar::Taskbar>,
+    pub vfs: Option<Rc<VirtualFS>>,
 }
 
 thread_local! {
@@ -16,41 +19,49 @@ pub fn init_app_state(document: web_sys::Document) {
     let state = Rc::new(RefCell::new(AppState {
         window_manager: wm,
         taskbar: None,
+        vfs: None,
     }));
     APP_STATE.with(|s| {
         *s.borrow_mut() = Some(state);
     });
 }
 
-pub fn with_wm<F, R>(f: F) -> R
+/// General-purpose accessor that gives a mutable reference to the entire AppState.
+pub fn with_app<F, R>(f: F) -> R
 where
-    F: FnOnce(&mut crate::window_manager::WindowManager) -> R,
+    F: FnOnce(&mut AppState) -> R,
 {
     APP_STATE.with(|s| {
         let state = s.borrow();
         let state = state.as_ref().expect("AppState not initialized");
         let mut app = state.borrow_mut();
-        f(&mut app.window_manager)
+        f(&mut app)
     })
+}
+
+pub fn with_wm<F, R>(f: F) -> R
+where
+    F: FnOnce(&mut crate::window_manager::WindowManager) -> R,
+{
+    with_app(|app| f(&mut app.window_manager))
 }
 
 pub fn with_taskbar<F, R>(f: F) -> R
 where
     F: FnOnce(&mut crate::taskbar::Taskbar) -> R,
 {
-    APP_STATE.with(|s| {
-        let state = s.borrow();
-        let state = state.as_ref().expect("AppState not initialized");
-        let mut app = state.borrow_mut();
-        f(app.taskbar.as_mut().expect("Taskbar not initialized"))
-    })
+    with_app(|app| f(app.taskbar.as_mut().expect("Taskbar not initialized")))
 }
 
 pub fn set_taskbar(tb: crate::taskbar::Taskbar) {
-    APP_STATE.with(|s| {
-        let state = s.borrow();
-        let state = state.as_ref().expect("AppState not initialized");
-        let mut app = state.borrow_mut();
+    with_app(|app| {
         app.taskbar = Some(tb);
+    });
+}
+
+/// Store the loaded VirtualFS into global state.
+pub fn set_vfs(vfs: VirtualFS) {
+    with_app(|app| {
+        app.vfs = Some(Rc::new(vfs));
     });
 }

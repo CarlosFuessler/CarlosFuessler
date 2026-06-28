@@ -6,8 +6,10 @@ use wasm_bindgen::JsCast;
 
 mod app_state;
 mod desktop;
+mod file_manager;
 mod login;
 mod taskbar;
+mod vfs;
 mod window_manager;
 
 #[wasm_bindgen(start)]

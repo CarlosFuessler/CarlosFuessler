@@ -52,6 +52,14 @@ impl WindowManager {
         }
     }
 
+    /// Return the content element of the window with the given id.
+    pub fn get_content(&self, id: u32) -> Option<web_sys::Element> {
+        self.windows
+            .iter()
+            .find(|w| w.id == id)
+            .map(|w| w.content.clone())
+    }
+
     pub fn create_window(&mut self, app_id: &str, title: &str, w: u32, h: u32) -> u32 {
         let id = self.next_id;
         self.next_id += 1;

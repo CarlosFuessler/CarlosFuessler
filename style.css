@@ -157,3 +157,15 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
   border: 2px inset var(--silver-dark);
   margin: 2px; padding: 4px;
 }
+
+/* ========== Step 6.5: Start Menu Styles ========== */
+#start-menu {
+  position: absolute; bottom: var(--taskbar-height); left: 0;
+  background: var(--silver); border: var(--border-outset);
+  box-shadow: 4px 4px 0 var(--darkest);
+  z-index: 20000; min-width: 200px;
+  font-family: var(--font); font-size: var(--font-size);
+}
+.start-menu-item { padding: 6px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.start-menu-item:hover { background: var(--title-active); color: var(--title-active-text); }
+.start-menu-sep { height: 2px; margin: 4px 8px; border-top: 1px inset var(--silver-dark); border-bottom: 1px outset var(--white); }

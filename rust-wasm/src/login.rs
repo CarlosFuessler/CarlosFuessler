@@ -105,6 +105,11 @@ fn start_desktop(document: &web_sys::Document, _result: LoginResult) {
 
     // Create and register the taskbar in global state
     let taskbar = Taskbar::new(document);
+
+    // Wire up the Start button and start menu BEFORE moving taskbar into global state
+    taskbar.setup_start_button();
+
+    // Now move taskbar into global state
     app_state::set_taskbar(taskbar);
 
     // Create a test window to verify everything works

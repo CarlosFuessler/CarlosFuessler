@@ -1,3 +1,4 @@
+use crate::app_state;
 use crate::desktop::{render_desktop_icons, DesktopIcon};
 use crate::taskbar::Taskbar;
 use wasm_bindgen::closure::Closure;
@@ -99,6 +100,15 @@ fn start_desktop(document: &web_sys::Document, _result: LoginResult) {
     ];
     render_desktop_icons(document, &icons);
 
-    // Initialize taskbar
-    let _taskbar = Taskbar::new(document);
+    // Initialize global state (WindowManager + later Taskbar)
+    app_state::init_app_state(document.clone());
+
+    // Create and register the taskbar in global state
+    let taskbar = Taskbar::new(document);
+    app_state::set_taskbar(taskbar);
+
+    // Create a test window to verify everything works
+    app_state::with_wm(|wm| {
+        wm.create_window("test", "Welcome", 500, 300);
+    });
 }

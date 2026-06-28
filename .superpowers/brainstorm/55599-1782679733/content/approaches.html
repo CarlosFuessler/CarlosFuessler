@@ -1,0 +1,96 @@
+<h2>Three Approaches for Your OS Desktop CV</h2>
+<p class="subtitle">Windows 95 aesthetic, Rust WASM + HTML/CSS, Markdown content, GitHub Pages</p>
+
+<div class="cards">
+  <div class="card" data-choice="full-desktop" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>A - Full Desktop Environment</h3>
+      <div style="background:#008080;padding:16px;border-radius:4px;margin:8px 0;">
+        <div style="display:flex;gap:16px;justify-content:center;">
+          <div style="text-align:center;color:white;font-size:11px;">
+            <div style="width:40px;height:40px;background:#c0c0c0;margin:0 auto 4px;border:2px outset #fff;"></div>
+            My PC
+          </div>
+          <div style="text-align:center;color:white;font-size:11px;">
+            <div style="width:40px;height:40px;background:#c0c0c0;margin:0 auto 4px;border:2px outset #fff;"></div>
+            Projects
+          </div>
+          <div style="text-align:center;color:white;font-size:11px;">
+            <div style="width:40px;height:40px;background:#c0c0c0;margin:0 auto 4px;border:2px outset #fff;"></div>
+            Terminal
+          </div>
+        </div>
+        <div style="margin-top:24px;background:#c0c0c0;padding:4px 8px;border:2px outset #fff;display:flex;gap:8px;align-items:center;">
+          <span style="border:2px outset #fff;padding:2px 8px;font-size:10px;color:#000;">Start</span>
+          <span style="font-size:10px;color:#000;">Running: File Manager | Terminal</span>
+          <span style="margin-left:auto;font-size:10px;color:#000;">10:42 AM</span>
+        </div>
+      </div>
+      <p style="font-size:13px;">Full window manager: draggable/resizable/minimizable windows, taskbar, desktop icons, boot screen, start menu. Every app is a window.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="filemanager" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>B - File Manager Centric</h3>
+      <div style="background:white;border:1px solid #000;margin:8px 0;font-family:monospace;font-size:11px;">
+        <div style="border-bottom:1px solid #000;padding:2px 4px;background:#c0c0c0;">File Edit View Help</div>
+        <div style="display:flex;">
+          <div style="width:100px;border-right:1px solid #000;padding:4px;background:#fff;color:#000;">
+            My PC<br>
+            &nbsp; Projects<br>
+            &nbsp; Skills<br>
+            &nbsp; Experience<br>
+            &nbsp; Contact
+          </div>
+          <div style="flex:1;padding:4px;background:#fff;color:#000;">
+            about-me.md<br>
+            cv-resume.md<br>
+            skills.md<br>
+            contact.md
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;">Windows Explorer is the primary interface. Browse folders to find CV, projects, skills. Simpler build, natural navigation.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="spa" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>C - Taskbar + Start Menu SPA</h3>
+      <div style="background:#008080;padding:16px;margin:8px 0;border-radius:4px;">
+        <div style="min-height:60px;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;">
+          [ Active App Content Area ]
+        </div>
+        <div style="margin-top:8px;background:#c0c0c0;padding:4px;border:2px outset #fff;display:flex;gap:4px;">
+          <span style="border:2px outset #fff;padding:2px 6px;font-size:10px;color:#000;">Start</span>
+          <span style="border:2px inset #fff;padding:2px 6px;font-size:10px;color:#000;">Files</span>
+          <span style="border:2px outset #fff;padding:2px 6px;font-size:10px;color:#000;">CV</span>
+          <span style="border:2px outset #fff;padding:2px 6px;font-size:10px;color:#000;">Terminal</span>
+          <span style="margin-left:auto;font-size:10px;color:#000;">10:42 AM</span>
+        </div>
+      </div>
+      <p style="font-size:13px;">Static taskbar + start menu always visible. Each "app" swaps the main area. Simplest to build, still looks OS-like.</p>
+    </div>
+  </div>
+</div>
+
+<h3>My Recommendation: <span style="color:var(--primary);">A - Full Desktop Environment</span></h3>
+<div class="pros-cons">
+  <div class="pros">
+    <h4>Why A Wins</h4>
+    <ul>
+      <li>Most impressive for job interviews - memorable</li>
+      <li>Rust WASM is a natural fit for a window manager</li>
+      <li>Reusable window system for all apps</li>
+      <li>File manager, terminal, notepad are all windowed apps</li>
+    </ul>
+  </div>
+  <div class="cons">
+    <h4>Tradeoffs</h4>
+    <ul>
+      <li>Most complex to build</li>
+      <li>More Rust code for drag/resize/z-order</li>
+    </ul>
+  </div>
+</div>

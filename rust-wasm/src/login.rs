@@ -120,4 +120,18 @@ fn start_desktop(document: &web_sys::Document, _result: LoginResult) {
         app_state::set_vfs(vfs);
         web_sys::console::log_1(&"Virtual filesystem loaded.".into());
     });
+
+    // Auto-open About Me after a short delay
+    let doc = document.clone();
+    let closure = Closure::<dyn FnMut()>::new(move || {
+        crate::markdown::MarkdownViewer::open(&doc, "About Me - Notepad", "content/about.md");
+    });
+    web_sys::window()
+        .unwrap()
+        .set_timeout_with_callback_and_timeout_and_arguments_0(
+            closure.as_ref().unchecked_ref(),
+            500,
+        )
+        .unwrap();
+    closure.forget();
 }

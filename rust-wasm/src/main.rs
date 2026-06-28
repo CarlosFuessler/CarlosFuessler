@@ -7,6 +7,7 @@ use wasm_bindgen::JsCast;
 mod app_state;
 mod desktop;
 mod file_manager;
+mod markdown;
 mod login;
 mod taskbar;
 mod vfs;

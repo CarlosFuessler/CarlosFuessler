@@ -269,20 +269,18 @@ impl FileManager {
                             Self::render_tree(&tree, &cur, &files, &d);
                             Self::render_files(&files, &cur, &tree, &d);
                         } else if item_type == "file" && item_path.ends_with(".md") {
-                            // Markdown Viewer doesn't exist yet (Task 8);
-                            // for now, create a simple placeholder window.
-                            let name = item_path
+                            // Open markdown file in MarkdownViewer
+                            let filename = item_path
                                 .split('/')
                                 .last()
-                                .unwrap_or(&item_path);
-                            crate::app_state::with_app(|app| {
-                                app.window_manager.create_window(
-                                    "md-viewer",
-                                    &format!("Opening {}...", name),
-                                    500,
-                                    400,
-                                );
-                            });
+                                .unwrap_or(&item_path)
+                                .to_string();
+                            let relative_path = item_path.trim_start_matches('/');
+                            crate::markdown::MarkdownViewer::open(
+                                &d,
+                                &filename,
+                                &format!("content/{}", relative_path),
+                            );
                         }
                     });
                     item.add_event_listener_with_callback(

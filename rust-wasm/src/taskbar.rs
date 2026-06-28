@@ -133,6 +133,12 @@ pub fn launch_app(document: &web_sys::Document, app: &str) {
         "terminal" => {
             crate::terminal::Terminal::open(document);
         }
+        "projects" => {
+            crate::projects_gallery::ProjectsGallery::open(document);
+        }
+        "contact" => {
+            crate::contact::ContactApp::open(document);
+        }
         "shutdown" => trigger_shutdown(document),
         _ => {
             // Placeholder: create a simple window for the app

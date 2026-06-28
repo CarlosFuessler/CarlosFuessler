@@ -8,6 +8,8 @@ mod app_state;
 mod desktop;
 mod file_manager;
 mod markdown;
+mod projects_gallery;
+mod contact;
 mod login;
 mod taskbar;
 mod vfs;

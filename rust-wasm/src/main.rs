@@ -11,6 +11,7 @@ mod markdown;
 mod login;
 mod taskbar;
 mod vfs;
+mod terminal;
 mod window_manager;
 
 #[wasm_bindgen(start)]

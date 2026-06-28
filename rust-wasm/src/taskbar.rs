@@ -130,6 +130,9 @@ pub fn launch_app(document: &web_sys::Document, app: &str) {
         "file-manager" => {
             crate::file_manager::FileManager::open();
         }
+        "terminal" => {
+            crate::terminal::Terminal::open(document);
+        }
         "shutdown" => trigger_shutdown(document),
         _ => {
             // Placeholder: create a simple window for the app

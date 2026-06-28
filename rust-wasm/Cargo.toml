@@ -1,0 +1,23 @@
+[package]
+name = "win95-desktop"
+version = "0.1.0"
+edition = "2021"
+autobins = false
+
+[lib]
+name = "win95_desktop"
+path = "src/main.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+web-sys = { version = "0.3", features = [
+    "Document", "Element", "Window", "HtmlElement", "MouseEvent",
+    "KeyboardEvent", "HtmlDivElement", "Node", "EventTarget",
+    "console", "DomRect", "HtmlInputElement",
+    "HtmlButtonElement", "Storage",
+] }
+js-sys = "0.3"
+
+[workspace]

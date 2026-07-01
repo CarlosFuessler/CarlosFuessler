@@ -47,9 +47,7 @@ impl Taskbar {
     /// Toggle the Start menu open/closed.
     pub fn toggle_start_menu(&self) {
         if let Some(menu) = self.document.get_element_by_id("start-menu") {
-            let style = menu.get_attribute("style").unwrap_or_default();
-            let hidden = style.contains("display:none") || style.is_empty();
-            menu.set_attribute("style", if hidden { "display:block" } else { "display:none" }).unwrap();
+            menu.class_list().toggle("open").ok();
         }
     }
 
@@ -62,9 +60,7 @@ impl Taskbar {
             move |evt: web_sys::MouseEvent| {
                 evt.stop_propagation();
                 if let Some(menu) = d1.get_element_by_id("start-menu") {
-                    let style = menu.get_attribute("style").unwrap_or_default();
-                    let hidden = style.contains("display:none") || style.is_empty();
-                    menu.set_attribute("style", if hidden { "display:block" } else { "display:none" }).unwrap();
+                    menu.class_list().toggle("open").ok();
                 }
             },
         );
@@ -77,12 +73,24 @@ impl Taskbar {
         let close_cb = Closure::<dyn FnMut(web_sys::MouseEvent)>::new(
             move |_ev: web_sys::MouseEvent| {
                 if let Some(menu) = d2.get_element_by_id("start-menu") {
-                    menu.set_attribute("style", "display:none").unwrap();
+                    menu.class_list().remove_1("open").ok();
                 }
             },
         );
         doc.add_event_listener_with_callback("click", close_cb.as_ref().unchecked_ref()).unwrap();
         crate::app_state::store_closure(close_cb);
+
+        // Stop click propagation inside Start Menu so clicking search input doesn't close it
+        if let Some(menu_el) = doc.get_element_by_id("start-menu") {
+            let menu_click_cb = Closure::<dyn FnMut(web_sys::MouseEvent)>::new(
+                move |evt: web_sys::MouseEvent| {
+                    evt.stop_propagation();
+                }
+            );
+            menu_el.add_event_listener_with_callback("click", menu_click_cb.as_ref().unchecked_ref()).unwrap();
+            crate::app_state::store_closure(menu_click_cb);
+        }
+
 
         // Keyboard shortcut: Ctrl+Esc or Meta (Windows key) to toggle Start menu
         let d3 = doc.clone();
@@ -92,9 +100,7 @@ impl Taskbar {
                 if ev.key() == "Meta" || (ev.key() == "Escape" && ev.ctrl_key()) {
                     ev.prevent_default();
                     if let Some(menu) = d3.get_element_by_id("start-menu") {
-                        let style = menu.get_attribute("style").unwrap_or_default();
-                        let hidden = style.contains("display:none") || style.is_empty();
-                        menu.set_attribute("style", if hidden { "display:block" } else { "display:none" }).unwrap();
+                        menu.class_list().toggle("open").ok();
                     }
                 }
             },
@@ -115,7 +121,7 @@ impl Taskbar {
                                 evt.stop_propagation();
                                 if let Some(app) = item_el.get_attribute("data-app") {
                                     if let Some(menu) = item_doc.get_element_by_id("start-menu") {
-                                        menu.set_attribute("style", "display:none").unwrap();
+                                        menu.class_list().remove_1("open").ok();
                                     }
                                     launch_app(&item_doc, &app);
                                 }
@@ -149,70 +155,31 @@ pub fn launch_app(document: &web_sys::Document, app: &str) {
         "paint" => crate::apps::paint::PaintApp::open(document),
         "cdplayer" => crate::apps::cdplayer::CDPlayerApp::open(document),
         "help" => crate::markdown::MarkdownViewer::open(document, "Help", "content/about/about.md"),
-        "shutdown" => trigger_shutdown(document),
+        "lockout" => trigger_lockout(document),
         _ => { crate::app_state::create_window(app, app, 400, 300); }
     }
 }
 
-pub fn trigger_shutdown(document: &web_sys::Document) {
-    let overlay = document.create_element("div").unwrap();
-    overlay.set_attribute("id", "shutdown-overlay").unwrap();
-    overlay.set_attribute("style",
-        "position:fixed;inset:0;z-index:99999;background:#000080;\
-         display:flex;align-items:center;justify-content:center;\
-         flex-direction:column;gap:16px;"
-    ).unwrap();
-    overlay.set_inner_html(
-        "<div style='color:white;font-size:18px;'>\
-         Please wait while your computer shuts down.\
-         </div>\
-         <div id='shutdown-counter' style='color:white;font-size:24px;'>5</div>"
-    );
-    document.body().unwrap().append_child(&overlay).unwrap();
-
-    let window = web_sys::window().unwrap();
-    let doc = document.clone();
-    let cb_holder: Rc<RefCell<Option<Closure<dyn FnMut()>>>> = Rc::new(RefCell::new(None));
-    let counter: Rc<RefCell<i32>> = Rc::new(RefCell::new(5));
-
-    let closure = {
-        let doc = doc.clone();
-        let window = window.clone();
-        let cb_holder = cb_holder.clone();
-        let counter = counter.clone();
-        Closure::<dyn FnMut()>::new(move || {
-            let mut c = counter.borrow_mut();
-            *c -= 1;
-            let count = *c;
-            if count > 0 {
-                if let Some(el) = doc.get_element_by_id("shutdown-counter") {
-                    el.set_inner_html(&count.to_string());
-                }
-                if let Some(cb_ref) = cb_holder.borrow().as_ref() {
-                    let cb_fn = cb_ref.as_ref().unchecked_ref::<js_sys::Function>().clone();
-                    let _ = window.set_timeout_with_callback_and_timeout_and_arguments_0(&cb_fn, 1000);
-                }
-            } else {
-                if let Some(el) = doc.get_element_by_id("shutdown-overlay") {
-                    el.set_inner_html(
-                        "<div style='color:white;font-size:24px;'>\
-                         It's now safe to turn off your computer.\
-                         </div>"
-                    );
-                    let reload_cb = Closure::<dyn FnMut()>::new(move || {
-                        if let Some(w) = web_sys::window() {
-                            w.location().reload().ok();
-                        }
-                    });
-                    el.add_event_listener_with_callback("click", reload_cb.as_ref().unchecked_ref()).unwrap();
-                    crate::app_state::store_closure(reload_cb);
-                }
-                *cb_holder.borrow_mut() = None;
-            }
-        })
-    };
-
-    let cb_fn = closure.as_ref().unchecked_ref::<js_sys::Function>().clone();
-    *cb_holder.borrow_mut() = Some(closure);
-    let _ = window.set_timeout_with_callback_and_timeout_and_arguments_0(&cb_fn, 1000);
+pub fn trigger_lockout(document: &web_sys::Document) {
+    if let Some(overlay) = document.get_element_by_id("login-overlay") {
+        overlay.set_attribute("style", "").unwrap();
+    }
+    if let Some(desktop) = document.get_element_by_id("desktop") {
+        desktop.set_attribute("style", "display:none").unwrap();
+    }
+    if let Some(taskbar) = document.get_element_by_id("taskbar") {
+        taskbar.set_attribute("style", "display:none").unwrap();
+    }
+    if let Some(pass_el) = document.get_element_by_id("login-pass") {
+        if let Some(input) = pass_el.dyn_ref::<web_sys::HtmlInputElement>() {
+            input.set_value("");
+            input.focus().ok();
+        }
+    }
+    if let Some(err_el) = document.get_element_by_id("login-error") {
+        err_el.set_inner_html("");
+    }
+    if let Some(menu) = document.get_element_by_id("start-menu") {
+        menu.class_list().remove_1("open").ok();
+    }
 }

@@ -4,11 +4,11 @@
     "btn": "Skip Tour"
   },
   "step1": {
-    "text": "Excellent! You opened My PC. Here you can read about Carlos.<br/><br/>Next, let's see his work! Open the <b>Projects Gallery</b> from the Start Menu.",
+    "text": "Great! You opened My PC. Here you can read about Carlos.<br/><br/>Next, let's see his work! Open the <b>Projects Gallery</b> from the Start Menu.",
     "btn": "Skip Tour"
   },
   "step2": {
-    "text": "Wow, look at all these cool projects! Carlos has built systems tooling, web apps, and this retro desktop.<br/><br/>Now you're ready to explore on your own. Have fun!",
+    "text": "Great, have look at all these projects! Carlos has built a Lamguage, Keyboards, and Operatingsystems.<br/><br/>Now you're ready to explore on your own. Have fun!",
     "btn": "Close"
   }
 }

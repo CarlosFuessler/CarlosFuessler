@@ -66,19 +66,7 @@ pub fn show_login(document: &web_sys::Document) {
     overlay.add_event_listener_with_callback("keydown", enter_cb.as_ref().unchecked_ref()).unwrap();
     app_state::store_closure(enter_cb);
 
-    // Shutdown button
-    let doc_sd = document.clone();
-    let sd_btn = document.get_element_by_id("login-shutdown").unwrap();
-    let sd_cb = Closure::<dyn FnMut(web_sys::MouseEvent)>::new(
-        move |_ev: web_sys::MouseEvent| {
-            if let Some(body) = doc_sd.body() {
-                body.set_inner_html("");
-                body.style().set_property("background", "#000").ok();
-            }
-        },
-    );
-    sd_btn.add_event_listener_with_callback("click", sd_cb.as_ref().unchecked_ref()).unwrap();
-    app_state::store_closure(sd_cb);
+
 }
 
 fn start_desktop(document: &web_sys::Document, _result: LoginResult) {

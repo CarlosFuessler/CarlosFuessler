@@ -1,20 +1,12 @@
 # Skills & Technologies
 
 ## Languages
-- Rust (advanced)
-- TypeScript / JavaScript
-- Python
-- Go
+- Rust
 - C / C++
-
-## Web Technologies
-- WebAssembly
-- HTML5 / CSS3
-- React, Vue
-- Node.js
+- Zig
 
 ## Tools & Platforms
 - Git
-- Docker / Kubernetes
+- Docker
 - CI/CD (GitHub Actions)
 - Linux / Unix

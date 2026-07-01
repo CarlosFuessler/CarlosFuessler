@@ -11,14 +11,21 @@ impl ProjectsGallery {
             wm.get_content(id).expect("window content not found")
         });
 
+        if let Some(html_el) = content.dyn_ref::<web_sys::HtmlElement>() {
+            html_el.style().set_property("display", "flex").ok();
+            html_el.style().set_property("flex-direction", "column").ok();
+            html_el.style().set_property("padding", "0").ok();
+            html_el.style().set_property("overflow", "hidden").ok();
+        }
+
         content.set_inner_html(r#"
-            <div id="gallery-filter" style="padding:4px;border-bottom:1px inset var(--silver-dark);display:flex;gap:4px;flex-wrap:wrap;">
+            <div id="gallery-filter" style="padding:6px 12px;border-bottom:1px solid rgba(0,0,0,0.15);display:flex;gap:6px;flex-wrap:wrap;background:rgba(0,0,0,0.02);align-items:center;">
                 <button class="win95-btn" data-filter="all">All</button>
                 <button class="win95-btn" data-filter="rust">Rust</button>
                 <button class="win95-btn" data-filter="web">Web</button>
                 <button class="win95-btn" data-filter="systems">Systems</button>
             </div>
-            <div id="gallery-cards" style="padding:8px;display:flex;flex-wrap:wrap;gap:12px;overflow-y:auto;height:calc(100% - 42px);align-content:flex-start;">
+            <div id="gallery-cards" style="padding:12px;display:flex;flex-wrap:wrap;gap:12px;overflow-y:auto;flex:1;align-content:flex-start;">
                 <div class="project-card" data-tags="rust web">
                     <h3>System 95 Desktop</h3>
                     <p>A retro 95-themed desktop environment in the browser — built with Rust WASM.</p>

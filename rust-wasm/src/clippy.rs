@@ -53,7 +53,7 @@ async fn fetch_dialogues() -> Option<ClippyDialogues> {
     use wasm_bindgen_futures::JsFuture;
 
     let window = web_sys::window()?;
-    let promise = window.fetch_with_str("/content/clippy.json");
+    let promise = window.fetch_with_str("content/clippy.json");
     let resp_val = JsFuture::from(promise).await.ok()?;
     let resp: web_sys::Response = resp_val.dyn_into().ok()?;
     
@@ -97,7 +97,7 @@ fn render_clippy() {
     });
 
     clippy_el.set_inner_html(&format!(r#"
-<img src="/assets/clippy.png" id="clippy-img" style="width:60px;height:auto;pointer-events:auto;image-rendering:pixelated;user-select:none;cursor:grab;" />
+<img src="assets/clippy.png" id="clippy-img" style="width:60px;height:auto;pointer-events:auto;image-rendering:pixelated;user-select:none;cursor:grab;" />
 <div id="clippy-bubble" style="
   background:#ffffcc;border:1px solid #000;padding:8px 12px;
   border-radius:8px;font-family:var(--font);font-size:11px;

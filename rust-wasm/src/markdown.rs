@@ -5,11 +5,8 @@ pub struct MarkdownViewer;
 
 impl MarkdownViewer {
     pub fn open(document: &web_sys::Document, title: &str, path: &str) {
-        let id = crate::app_state::with_wm(|wm| {
-            wm.create_window("markdown", title, 550, 400)
-        });
+        let id = crate::app_state::create_window("markdown", title, 550, 400);
 
-        // Get content element using the WindowManager API
         let content = crate::app_state::with_wm(|wm| {
             wm.get_content(id).expect("window content not found")
         });

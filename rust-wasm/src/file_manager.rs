@@ -19,17 +19,10 @@ impl FileManager {
             return;
         }
 
-        // Create the window via the WindowManager.
-        let win_id = crate::app_state::with_app(|app| {
-            app.window_manager
-                .create_window("file-manager", "File Manager", 700, 450)
-        });
+        let win_id = crate::app_state::create_window("file-manager", "File Manager", 700, 450);
 
-        // Retrieve the content element of the new window.
-        let content = crate::app_state::with_app(|app| {
-            app.window_manager
-                .get_content(win_id)
-                .expect("window content not found")
+        let content = crate::app_state::with_wm(|wm| {
+            wm.get_content(win_id).expect("window content not found")
         });
 
         let document = web_sys::window()
@@ -94,7 +87,7 @@ impl FileManager {
         up_btn
             .add_event_listener_with_callback("click", up_cb.as_ref().unchecked_ref())
             .unwrap();
-        up_cb.forget();
+        crate::app_state::store_closure(up_cb);
     }
 
     // ---------------------------------------------------------------
@@ -187,7 +180,7 @@ impl FileManager {
             item.set_attribute("style", &style).unwrap();
             item.set_attribute("data-path", &entry.path).unwrap();
 
-            item.set_inner_html(&format!("📁 {}", entry.name));
+            item.set_inner_html(&format!("<svg class=\"icon-svg\" viewBox=\"0 0 16 16\"><path fill=\"#e0a000\" stroke=\"#805000\" d=\"M1,3 h4 l2,2 h8 v9 h-14 z\"/></svg> {}", entry.name));
 
             // Click handler
             let item_path = entry.path.clone();
@@ -202,7 +195,7 @@ impl FileManager {
             });
             item.add_event_listener_with_callback("click", click_cb.as_ref().unchecked_ref())
                 .unwrap();
-            click_cb.forget();
+            crate::app_state::store_closure(click_cb);
 
             container.append_child(&item).unwrap();
 
@@ -250,9 +243,9 @@ impl FileManager {
                     item.set_attribute("data-type", &entry.entry_type).unwrap();
 
                     let icon = if entry.entry_type == "dir" {
-                        "📁"
+                        "<svg class=\"icon-svg\" viewBox=\"0 0 16 16\"><path fill=\"#e0a000\" stroke=\"#805000\" d=\"M1,3 h4 l2,2 h8 v9 h-14 z\"/></svg>"
                     } else {
-                        "📄"
+                        "<svg class=\"icon-svg\" viewBox=\"0 0 16 16\"><path fill=\"#fff\" stroke=\"#000\" d=\"M3,1 h7 l3,3 v11 h-10 z\"/><path fill=\"none\" stroke=\"#000\" d=\"M10,1 v3 h3 M5,6 h6 M5,9 h6 M5,12 h4\"/></svg>"
                     };
                     item.set_inner_html(&format!("{} {}", icon, entry.name));
 
@@ -288,7 +281,7 @@ impl FileManager {
                         dbl_cb.as_ref().unchecked_ref(),
                     )
                     .unwrap();
-                    dbl_cb.forget();
+                    crate::app_state::store_closure(dbl_cb);
 
                     files_cont.append_child(&item).unwrap();
                 }

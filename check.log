@@ -1,0 +1,237 @@
+    Checking win95-desktop v0.1.0 (/Users/carlos/Developer/Projects/github.io/rust-wasm)
+warning: unused import: `wasm_bindgen::JsCast`
+  --> rust-wasm/src/apps/sysinfo.rs:63:9
+   |
+63 |     use wasm_bindgen::JsCast;
+   |         ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0599]: no method named `query_selector_all` found for reference `&Document` in the current scope
+   --> rust-wasm/src/taskbar.rs:107:31
+    |
+107 |         if let Ok(list) = doc.query_selector_all("#start-menu [data-app]") {
+    |                               ^^^^^^^^^^^^^^^^^^
+    |
+help: there is a method `query_selector` with a similar name
+    |
+107 -         if let Ok(list) = doc.query_selector_all("#start-menu [data-app]") {
+107 +         if let Ok(list) = doc.query_selector("#start-menu [data-app]") {
+    |
+
+error[E0282]: type annotations needed
+   --> rust-wasm/src/taskbar.rs:108:25
+    |
+108 |             for i in 0..list.length() {
+    |                         ^^^^ cannot infer type
+
+error[E0282]: type annotations needed
+   --> rust-wasm/src/taskbar.rs:110:39
+    |
+110 |                     if let Some(el) = node.dyn_ref::<web_sys::Element>() {
+    |                                       ^^^^ cannot infer type
+
+error[E0282]: type annotations needed
+   --> rust-wasm/src/taskbar.rs:112:57
+    |
+112 |                         let item_el: web_sys::Element = el.clone();
+    |                                                         ^^ cannot infer type
+
+error[E0277]: the size for values of type `str` cannot be known at compilation time
+   --> rust-wasm/src/taskbar.rs:116:40
+    |
+116 | ...                   if let Some(app) = item_el.get_attribute("data-app") {
+    |                              ^^^^^^^^^ doesn't have a size known at compile-time
+    |
+    = help: the trait `Sized` is not implemented for `str`
+note: required by a bound in `std::prelude::v1::Some`
+   --> /Users/carlos/.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/option.rs:599:17
+    |
+599 | pub enum Option<T> {
+    |                 ^ required by this bound in `std::prelude::v1::Some`
+...
+607 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+    |     ---- required by a bound in this tuple variant
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+  --> rust-wasm/src/apps/paint.rs:77:9
+   |
+77 |     ctx.set_fill_style(&"#ffffff".into());
+   |         ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+  --> rust-wasm/src/apps/paint.rs:95:40
+   |
+95 | ...                   ct.set_fill_style(&"#ffffff".into());
+   |                          ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/paint.rs:169:22
+    |
+169 |                 ctx2.set_fill_style(&"#ffffff".into());
+    |                      ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/paint.rs:173:22
+    |
+173 |                 ctx2.set_fill_style(&(&color).into());
+    |                      ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_stroke_style`
+   --> rust-wasm/src/apps/paint.rs:174:22
+    |
+174 |                 ctx2.set_stroke_style(&(&color).into());
+    |                      ^^^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/paint.rs:197:22
+    |
+197 |                 ctx3.set_fill_style(&"#ffffff".into());
+    |                      ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/paint.rs:201:22
+    |
+201 |                 ctx3.set_fill_style(&(&color).into());
+    |                      ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_stroke_style`
+   --> rust-wasm/src/apps/paint.rs:202:22
+    |
+202 |                 ctx3.set_stroke_style(&(&color).into());
+    |                      ^^^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/paint.rs:229:13
+    |
+229 |         ctx.set_fill_style(&"#ffffff".into());
+    |             ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/snake.rs:388:9
+    |
+388 |     ctx.set_fill_style(&"#000000".into());
+    |         ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/snake.rs:397:13
+    |
+397 |         ctx.set_fill_style(&"#ff0000".into());
+    |             ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_stroke_style`
+   --> rust-wasm/src/apps/snake.rs:399:13
+    |
+399 |         ctx.set_stroke_style(&"#ff8888".into());
+    |             ^^^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/snake.rs:410:21
+    |
+410 |                 ctx.set_fill_style(&"#00ff00".into());
+    |                     ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_fill_style`
+   --> rust-wasm/src/apps/snake.rs:413:21
+    |
+413 |                 ctx.set_fill_style(&"#008800".into());
+    |                     ^^^^^^^^^^^^^^
+
+warning: use of deprecated method `web_sys::CanvasRenderingContext2d::set_stroke_style`
+   --> rust-wasm/src/apps/snake.rs:418:17
+    |
+418 |             ctx.set_stroke_style(&"#000000".into());
+    |                 ^^^^^^^^^^^^^^^^
+
+warning: unused import: `wasm_bindgen::JsCast`
+ --> rust-wasm/src/apps/cdplayer.rs:2:5
+  |
+2 | use wasm_bindgen::JsCast;
+  |     ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/calculator.rs:28:17
+   |
+28 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/notepad.rs:10:17
+   |
+10 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: unused variable: `doc`
+  --> rust-wasm/src/apps/notepad.rs:53:9
+   |
+53 |     let doc = parent.owner_document().unwrap();
+   |         ^^^ help: if this is intentional, prefix it with an underscore: `_doc`
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/calendar.rs:16:17
+   |
+16 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: unused variable: `doc`
+  --> rust-wasm/src/apps/calendar.rs:80:50
+   |
+80 | fn render_calendar(container: &web_sys::Element, doc: &web_sys::Document, today: i32) {
+   |                                                  ^^^ help: if this is intentional, prefix it with an underscore: `_doc`
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/minesweeper.rs:46:17
+   |
+46 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: variable does not need to be mutable
+   --> rust-wasm/src/apps/minesweeper.rs:191:9
+    |
+191 |     let mut rng = js_sys::Math::random;
+    |         ----^^^
+    |         |
+    |         help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/sysinfo.rs:10:17
+   |
+10 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/paint.rs:19:17
+   |
+19 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/cdplayer.rs:31:17
+   |
+31 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: unused variable: `document`
+  --> rust-wasm/src/apps/snake.rs:38:17
+   |
+38 |     pub fn open(document: &web_sys::Document) {
+   |                 ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_document`
+
+warning: variable does not need to be mutable
+   --> rust-wasm/src/apps/snake.rs:250:9
+    |
+250 |     let mut rng = js_sys::Math::random;
+    |         ----^^^
+    |         |
+    |         help: remove this `mut`
+
+Some errors have detailed explanations: E0277, E0282, E0599.
+For more information about an error, try `rustc --explain E0277`.
+warning: `win95-desktop` (lib) generated 29 warnings
+error: could not compile `win95-desktop` (lib) due to 5 previous errors; 29 warnings emitted

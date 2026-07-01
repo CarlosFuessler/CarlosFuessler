@@ -1,20 +1,40 @@
-<div id="boot-screen">
-  <div id="boot-logo">⬛ Windows 95</div>
-  <div id="boot-progress"><div id="boot-progress-fill"></div></div>
-  <div id="boot-text">Starting Windows 95...</div>
-</div>
 <div id="login-overlay" style="display:none;">
-  <div id="login-dialog">
-    <div class="win95-titlebar">Enter Network Password</div>
-    <div id="login-body">
-      <p>Enter your name and password to log on.</p>
-      <label>Username: <input id="login-user" type="text" /></label>
-      <label>Password: <input id="login-pass" type="password" /></label>
-      <div id="login-btns">
-        <button id="login-ok" class="win95-btn">OK</button>
-        <button id="login-guest" class="win95-btn">Guest</button>
-      </div>
+  <div id="login-dialog-win7" style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; font-family:'Segoe UI', -apple-system, sans-serif; color:#fff; text-align:center; user-select:none; position:relative;">
+    
+    <!-- User Avatar -->
+    <div style="width: 96px; height: 96px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.75); box-shadow: 0 4px 10px rgba(0,0,0,0.4); background: linear-gradient(135deg, #a0c0e0 0%, #7090b0 100%); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 16px;">
+      <svg viewBox="0 0 24 24" style="width: 64px; height: 64px; fill: #fff; opacity:0.95;">
+        <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,16 20,18V20H4V18C4,16 7.58,14 12,14Z"/>
+      </svg>
     </div>
+    
+    <!-- Username -->
+    <div style="font-size: 20px; font-weight: 400; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); margin-bottom: 16px;">Visitor</div>
+    
+    <!-- Password Input Container -->
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px; position:relative;">
+      <div style="display: flex; align-items: center; background: rgba(255,255,255,0.18); border: 1px solid rgba(0,0,0,0.5); border-top: 1px solid rgba(0,0,0,0.65); border-radius: 4px; padding: 2px; width: 220px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.15);">
+        <input id="login-pass" type="password" placeholder="Password" style="flex:1; background:transparent; border:none; color:#fff; font-family:sans-serif; font-size:14px; padding:4px 8px; outline:none; text-shadow: 0 1px 1px rgba(0,0,0,0.5);" />
+        <button id="login-ok" style="background: linear-gradient(to bottom, #5ba3e2 0%, #2264a0 100%); border: 1px solid #1c5080; border-radius: 4px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; font-size: 14px; outline: none; box-shadow: 0 1px 2px rgba(0,0,0,0.4); margin-right: 2px;">➔</button>
+      </div>
+      
+      <!-- Error message placeholder -->
+      <div id="login-error" style="height: 20px; font-size: 12px; color: #ff8888; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); margin-top: 6px; font-family:'Segoe UI', sans-serif;"></div>
+    </div>
+    
+    <!-- Windows 7 bottom branding (Ultimate removed) -->
+    <div style="position:absolute; bottom:40px; display:flex; flex-direction:column; align-items:center; gap:4px; opacity:0.85; pointer-events:none;">
+      <div style="font-size:18px; font-weight:600; letter-spacing:0.5px; text-shadow:1px 1px 3px rgba(0,0,0,0.8);">Retro OS</div>
+    </div>
+
+    <!-- Shutdown Button (Bottom Right) -->
+    <div style="position:absolute; bottom:24px; right:24px; pointer-events:auto;">
+      <button id="login-shutdown" style="background:transparent; border:none; cursor:pointer; display:flex; align-items:center; gap:8px; color:#fff; font-family:'Segoe UI', sans-serif; font-size:12px; text-shadow:1px 1px 2px rgba(0,0,0,0.8); opacity:0.85; outline:none;">
+        <svg viewBox="0 0 16 16" style="width:20px; height:20px; fill:#ff4444; filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));"><path d="M8,0 C3.58,0 0,3.58 0,8 C0,12.42 3.58,16 8,16 C12.42,16 16,12.42 16,8 C16,3.58 12.42,0 8,0 Z M8,14 C4.69,14 2,11.31 2,8 C2,5.72 3.28,3.74 5.17,2.75 L5.17,4.92 C4.47,5.69 4,6.79 4,8 C4,10.21 5.79,12 8,12 C10.21,12 12,10.21 12,8 C12,6.79 11.53,5.69 10.83,4.92 L10.83,2.75 C12.72,3.74 14,5.72 14,8 C14,11.31 11.31,14 8,14 Z M7,1 L9,1 L9,7 L7,7 Z"/></svg>
+        Shut Down
+      </button>
+    </div>
+
   </div>
 </div>
 <div id="desktop" style="display:none;">
@@ -25,12 +45,53 @@
   <div id="tb-apps"></div>
   <div id="sys-tray"><span id="clock"></span></div>
   <div id="start-menu" style="display:none;">
-    <div class="start-menu-item" data-app="file-manager">📁 File Manager</div>
-    <div class="start-menu-item" data-app="terminal">⬛ Terminal</div>
-    <div class="start-menu-item" data-app="projects">📁 Projects</div>
-    <div class="start-menu-item" data-app="about">📄 About Me</div>
-    <div class="start-menu-item" data-app="contact">✉ Contact</div>
-    <div class="start-menu-sep"></div>
-    <div class="start-menu-item" data-app="shutdown">🔌 Shut Down...</div>
+    
+    <!-- Left Column: Programs List & Search -->
+    <div id="start-left">
+      <div id="start-programs-list">
+        <div class="start-menu-item" data-app="file-manager"><svg class="icon-svg" viewBox="0 0 16 16"><path fill="#e0a000" stroke="#805000" d="M1,3 h4 l2,2 h8 v9 h-14 z"/></svg> File Manager</div>
+        <div class="start-menu-item" data-app="terminal"><svg class="icon-svg" viewBox="0 0 16 16" style="background:#000;border:1px solid #808080;"><path fill="none" stroke="#0f0" stroke-width="1.5" d="M2,4 l3,3 l-3,3 M6,9 h6"/></svg> Terminal</div>
+        <div class="start-menu-item" data-app="notepad"><svg class="icon-svg" viewBox="0 0 16 16"><path fill="#fff" stroke="#000" d="M3,1 h7 l3,3 v11 h-10 z"/><path fill="none" stroke="#000" d="M10,1 v3 h3 M5,6 h6 M5,9 h6 M5,12 h4"/></svg> Notepad</div>
+        <div class="start-menu-item" data-app="paint"><svg class="icon-svg" viewBox="0 0 16 16"><path fill="#fff" stroke="#000" d="M2,8 c0,-3 3,-6 6,-6 c2,0 5,2 5,4 c0,2 -2,4 -4,4 c-1,0 -2,1 -2,2 c0,1 -1,2 -2,2 c-2,0 -3,-2 -3,-6 z"/><circle cx="5" cy="5" r="1.5" fill="red"/><circle cx="8" cy="4" r="1.5" fill="blue"/><circle cx="11" cy="6" r="1.5" fill="green"/><circle cx="8" cy="8" r="1.5" fill="yellow"/></svg> Paint</div>
+        <div class="start-menu-item" data-app="calculator"><svg class="icon-svg" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#c0c0c0" stroke="#000"/><rect x="4" y="4" width="8" height="3" fill="#fff" stroke="#000"/><rect x="4" y="9" width="2" height="2" fill="#808080"/><rect x="7" y="9" width="2" height="2" fill="#808080"/><rect x="10" y="9" width="2" height="2" fill="#808080"/></svg> Calculator</div>
+        <div class="start-menu-item" data-app="cdplayer"><svg class="icon-svg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="#dfdfdf" stroke="#808080" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="#c0c0c0" stroke="#808080"/><circle cx="8" cy="8" r="1" fill="#fff"/></svg> CD Player</div>
+        <div class="start-menu-item" data-app="calendar"><svg class="icon-svg" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="11" fill="#fff" stroke="#000"/><rect x="2" y="3" width="12" height="3" fill="#b00000"/><line x1="5" y1="1" x2="5" y2="4" stroke="#000" stroke-width="1.5"/><line x1="11" y1="1" x2="11" y2="4" stroke="#000" stroke-width="1.5"/></svg> Calendar</div>
+        <div class="start-menu-sep"></div>
+        <div class="start-menu-item" data-app="minesweeper"><svg class="icon-svg" viewBox="0 0 16 16"><circle cx="8" cy="8" r="4" fill="#000"/><path stroke="#000" d="M8,1 v14 M1,8 h14 M3,3 l10,10 M3,12 l10,-10"/><circle cx="6" cy="6" r="1" fill="#fff"/></svg> Minesweeper</div>
+        <div class="start-menu-item" data-app="snake"><svg class="icon-svg" viewBox="0 0 16 16"><path fill="none" stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M2,13 h3 v-3 h4 v-3 h5 M13,7 l1,-1"/></svg> Snake</div>
+      </div>
+      <div id="start-search-bar">
+        <input id="start-search-input" type="text" placeholder="Search programs and files" readonly />
+      </div>
+    </div>
+
+    <!-- Right Column: System Links & Shutdown -->
+    <div id="start-right">
+      <div id="start-right-links">
+        <div class="start-right-item" data-app="projects">
+          <svg class="icon-svg" viewBox="0 0 16 16" style="filter: brightness(0) invert(1);"><path fill="#fff" stroke="#000" d="M1,3 h4 l2,2 h8 v9 h-14 z"/></svg>
+          <span>Projects Gallery</span>
+        </div>
+        <div class="start-right-item" data-app="sysinfo">
+          <svg class="icon-svg" viewBox="0 0 16 16" style="filter: brightness(0) invert(1);"><rect x="2" y="2" width="12" height="9" fill="#dfdfdf" stroke="#808080"/><path fill="#808080" d="M1,12 h14 v2 h-14 z M6,11 h4 v2 h-4 z"/><rect x="3" y="3" width="10" height="7" fill="#000"/></svg>
+          <span>System Properties</span>
+        </div>
+        <div class="start-right-item" data-app="contact">
+          <svg class="icon-svg" viewBox="0 0 16 16" style="filter: brightness(0) invert(1);"><rect x="1" y="3" width="14" height="10" fill="#fff" stroke="#000" stroke-width="1"/><path fill="none" stroke="#000" stroke-width="1" d="M1,3 l7,5 l7,-5"/></svg>
+          <span>Contact</span>
+        </div>
+        <div class="start-right-item" data-app="help">
+          <svg class="icon-svg" viewBox="0 0 16 16" style="filter: brightness(0) invert(1);"><circle cx="8" cy="8" r="7" fill="#fff" stroke="#000080" stroke-width="1.5"/><text x="5.5" y="12" font-size="11" font-family="monospace" font-weight="bold" fill="#000080">?</text></svg>
+          <span>Help</span>
+        </div>
+      </div>
+      <div id="start-right-footer">
+        <button class="win7-shutdown-btn" data-app="shutdown">
+          <svg viewBox="0 0 16 16" style="width:12px; height:12px; fill:#fff;"><path d="M8,0 C3.58,0 0,3.58 0,8 C0,12.42 3.58,16 8,16 C12.42,16 16,12.42 16,8 C16,3.58 12.42,0 8,0 Z M8,14 C4.69,14 2,11.31 2,8 C2,5.72 3.28,3.74 5.17,2.75 L5.17,4.92 C4.47,5.69 4,6.79 4,8 C4,10.21 5.79,12 8,12 C10.21,12 12,10.21 12,8 C12,6.79 11.53,5.69 10.83,4.92 L10.83,2.75 C12.72,3.74 14,5.72 14,8 C14,11.31 11.31,14 8,14 Z M7,1 L9,1 L9,7 L7,7 Z"/></svg>
+          Shut down
+        </button>
+      </div>
+    </div>
+    
   </div>
 </div>

@@ -2,126 +2,625 @@
 html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
 #app { width: 100%; height: 100%; position: relative; }
 
-/* ========== Step 1: Custom Properties ========== */
-:root {
-  --desktop-bg: #008080;
-  --silver: #c0c0c0;
-  --silver-light: #dfdfdf;
-  --silver-dark: #808080;
-  --darkest: #000000;
-  --white: #ffffff;
-  --title-active: #000080;
-  --title-active-text: #ffffff;
-  --title-inactive: #808080;
-  --title-inactive-text: #c0c0c0;
-  --font: "MS Sans Serif", "Chicago", "Courier New", monospace;
-  --font-size: 11px;
-  --border-outset: 2px outset var(--white);
-  --border-inset: 2px inset var(--silver-dark);
-  --border-window: 2px outset var(--silver);
-  --border-input: 2px inset var(--silver-dark);
-  --taskbar-height: 40px;
-  --titlebar-height: 22px;
+.icon-svg {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+.desktop-icon-img .icon-svg {
+  width: 32px;
+  height: 32px;
+  margin-right: 0;
 }
 
-/* ========== Step 2: Win95 Utility Classes ========== */
-/* Win95 3D borders */
-.win95-outset { border: 2px outset var(--white); }
-.win95-inset { border: 2px inset var(--silver-dark); }
-.win95-sunken { border: 2px inset var(--silver-dark); background: var(--white); }
-.win95-raised { border: 2px outset var(--white); background: var(--silver); }
+/* ========== Step 1: Custom Properties (Windows 7 Aero) ========== */
+:root {
+  --desktop-bg: url("/assets/wallpaper.jpg") no-repeat center center / cover;
+  --silver: rgba(235, 243, 250, 0.35); /* Translucent glass */
+  --silver-light: rgba(255, 255, 255, 0.45);
+  --silver-dark: rgba(0, 0, 0, 0.15);
+  --darkest: #000000;
+  --white: #ffffff;
+  --title-active: rgba(255, 255, 255, 0.2);
+  --title-active-text: #111111;
+  --title-inactive: rgba(255, 255, 255, 0.05);
+  --title-inactive-text: #666666;
+  --font: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", sans-serif;
+  --font-size: 12px;
+  --border-window: 1px solid rgba(255, 255, 255, 0.45);
+  --taskbar-height: 40px;
+  --titlebar-height: 28px;
+}
+
+/* ========== Step 2: Aero Utility Classes ========== */
+.win95-outset { border: 1px solid rgba(0,0,0,0.15); border-radius: 3px; }
+.win95-inset { border: 1px solid rgba(0,0,0,0.12); border-radius: 3px; }
+.win95-sunken { border: 1px solid rgba(0,0,0,0.15); background: var(--white); border-radius: 3px; }
+.win95-raised { border: 1px solid rgba(0,0,0,0.15); background: #f5f6f7; border-radius: 3px; }
+
+/* Aero Button */
 .win95-btn {
   font-family: var(--font);
   font-size: var(--font-size);
-  padding: 2px 12px;
-  background: var(--silver);
-  border: 2px outset var(--white);
+  padding: 4px 14px;
+  background: linear-gradient(to bottom, #f4f5f6 0%, #e3e5e7 50%, #d5d7da 50%, #c7c9cc 100%);
+  border: 1px solid #707070;
+  border-radius: 3px;
+  color: #000000;
   outline: none;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 #ffffff, 0 1px 1px rgba(0,0,0,0.1);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
-.win95-btn:active { border: 2px inset var(--silver-dark); }
+.win95-btn:hover {
+  background: linear-gradient(to bottom, #eaf6fd 0%, #d9f0fc 50%, #bee6fd 50%, #a7d9f5 100%);
+  border-color: #3c7fb1;
+  box-shadow: inset 0 1px 0 #ffffff, 0 0 4px rgba(60, 127, 177, 0.6);
+}
+.win95-btn:active {
+  background: linear-gradient(to bottom, #e1f4fc 0%, #ccebfb 50%, #a1dafb 50%, #8acbef 100%);
+  border-color: #2c628b;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Aero Titlebar */
 .win95-titlebar {
   height: var(--titlebar-height);
-  background: var(--title-active);
+  background: transparent;
   color: var(--title-active-text);
   font-family: var(--font);
-  font-size: var(--font-size);
-  display: flex; align-items: center; padding: 0 4px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex; align-items: center; padding: 0 8px;
   user-select: none; cursor: default;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 5px rgba(255, 255, 255, 0.8);
 }
-.win95-titlebar.inactive { background: var(--title-inactive); color: var(--title-inactive-text); }
-.win95-window {
-  background: var(--silver);
-  border: var(--border-window);
-  box-shadow: 4px 4px 0 var(--darkest);
-  position: absolute; display: flex; flex-direction: column;
-  font-family: var(--font); font-size: var(--font-size);
+.win95-titlebar.inactive {
+  color: var(--title-inactive-text);
+  text-shadow: none;
 }
-.win95-title-btn {
-  width: 16px; height: 14px; margin-left: 2px;
-  border: 1px outset var(--white);
-  background: var(--silver);
-  font-size: 10px; line-height: 14px; text-align: center;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.win95-title-btn:active { border: 1px inset var(--silver-dark); }
 
-/* ========== Step 3: Desktop and Taskbar Styles ========== */
+/* Window Control Buttons */
+.win95-title-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 28px;
+  height: 18px;
+  margin: 0 1px;
+  font-family: var(--font);
+  font-size: 11px;
+  color: #333333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+  border-radius: 2px;
+}
+.win95-titlebar.inactive .win95-title-btn {
+  color: #888888;
+}
+.win95-title-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #000000;
+}
+.win95-title-btn:active {
+  background: rgba(0, 0, 0, 0.12);
+}
+.win95-title-btn:last-child:hover {
+  background: #e81123;
+  color: #ffffff;
+}
+.win95-title-btn:last-child:active {
+  background: #f1707a;
+}
+
+/* Aero Window */
+.win95-window {
+  display: flex; flex-direction: column;
+  position: absolute; min-width: 200px; min-height: 150px;
+  background: var(--silver);
+  backdrop-filter: blur(20px) saturate(125%);
+  -webkit-backdrop-filter: blur(20px) saturate(125%);
+  border: var(--border-window);
+  border-top: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 8px 8px 4px 4px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.35);
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+.win95-window:has(.win95-titlebar:not(.inactive)) {
+  box-shadow: 0 10px 36px rgba(0, 100, 200, 0.35), inset 0 1px 0 rgba(255,255,255,0.45);
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(240, 245, 255, 0.45);
+}
+
+/* Window Content */
+.win95-content {
+  flex: 1; overflow: auto;
+  background: var(--white);
+  border: 1px solid #d5dfeb;
+  margin: 4px; padding: 8px;
+  border-radius: 0 0 4px 4px;
+}
+
+/* ========== Step 5: Desktop Icon Styles ========== */
+.desktop-icon {
+  display: flex; flex-direction: column; align-items: center;
+  width: 76px; padding: 6px; cursor: pointer; text-align: center;
+  color: white; font-family: var(--font); font-size: 11px;
+  user-select: none;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8), 0 0 5px rgba(0,0,0,0.6);
+  border: 1px solid transparent;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  box-shadow: inset 0 0 4px rgba(255,255,255,0.2);
+}
+.desktop-icon-img { font-size: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35)); }
+#desktop-icons {
+  position: absolute; top: 0; left: 0;
+}
+
+/* ========== Step 6: Desktop Area ========== */
 #desktop {
   width: 100%; height: calc(100% - var(--taskbar-height));
   background: var(--desktop-bg);
   position: relative; overflow: hidden;
 }
-#taskbar {
-  height: var(--taskbar-height);
-  background: var(--silver);
-  border-top: 2px outset var(--white);
-  display: flex; align-items: center; padding: 0 4px;
-  position: fixed; bottom: 0; left: 0; right: 0;
-  z-index: 10000;
-}
-#start-btn {
-  padding: 2px 8px; font-family: var(--font); font-size: var(--font-size);
-  background: var(--silver); border: 2px outset var(--white);
-  cursor: pointer; display: flex; align-items: center; gap: 4px;
-  font-weight: bold; height: 30px;
-}
-#start-btn:active { border: 2px inset var(--silver-dark); }
-.tb-app-btn {
-  padding: 2px 8px; margin: 0 2px; height: 28px;
-  font-family: var(--font); font-size: var(--font-size);
-  background: var(--silver); border: 2px outset var(--white);
-  cursor: pointer; display: flex; align-items: center; gap: 4px;
-  max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.tb-app-btn.active { border: 2px inset var(--silver-dark); background: var(--silver-light); }
-#sys-tray {
-  margin-left: auto; display: flex; align-items: center; gap: 8px;
-  padding: 0 8px; border-left: 1px inset var(--silver-dark);
-  font-family: var(--font); font-size: var(--font-size); height: 28px;
+
+/* ========== Step 6.5: Start Menu Styles (Windows 7 Double-Column) ========== */
+#start-menu {
+  position: absolute; bottom: var(--taskbar-height); left: 0;
+  background: rgba(10, 25, 45, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  z-index: 20000;
+  width: 380px; height: 360px;
+  display: flex; flex-direction: row;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
 }
 
-/* ========== Step 4: Boot Screen and Login Styles ========== */
-#boot-screen {
-  position: fixed; inset: 0; z-index: 99999;
-  background: #000080; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; color: white;
+/* Left Column: Programs List & Search */
+#start-left {
+  flex: 1.25;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+#start-programs-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+#start-left .start-menu-item {
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333333;
   font-family: var(--font);
+  font-size: 12px;
+  border-radius: 3px;
+  transition: background-color 0.15s;
 }
-#boot-logo { font-size: 48px; margin-bottom: 40px; }
-#boot-progress {
-  width: 300px; height: 16px; border: 2px inset var(--silver-dark);
-  background: var(--white); position: relative;
+#start-left .start-menu-item:hover {
+  background: #eaf6fd;
+  color: #000000;
 }
-#boot-progress-fill {
-  height: 100%; width: 0%; background: #000080;
-  transition: width 0.3s linear;
+#start-search-bar {
+  padding-top: 6px;
+  border-top: 1px solid #e1e8ed;
 }
-#boot-text { margin-top: 8px; font-size: var(--font-size); color: #c0c0c0; }
+#start-search-input {
+  width: 100%;
+  padding: 4px 8px;
+  font-family: var(--font);
+  font-size: 11px;
+  border: 1px solid #a0a0a0;
+  border-radius: 2px;
+  outline: none;
+  background: #ffffff;
+}
+
+/* Right Column: System Links & Shutdown */
+#start-right {
+  flex: 0.85;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+#start-right-links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.start-right-item {
+  padding: 6px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-family: var(--font);
+  font-size: 12px;
+  border-radius: 3px;
+  transition: background-color 0.15s;
+}
+.start-right-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+#start-right-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.win7-shutdown-btn {
+  background: linear-gradient(to bottom, #d23d3d 0%, #a91c1c 100%);
+  border: 1px solid #7c1212;
+  border-radius: 3px;
+  color: #ffffff;
+  font-family: var(--font);
+  font-size: 11px;
+  padding: 4px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.15);
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.win7-shutdown-btn:hover {
+  background: linear-gradient(to bottom, #f15252 0%, #c12323 100%);
+  border-color: #921717;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 0 5px rgba(241, 82, 82, 0.5);
+}
+.win7-shutdown-btn:active {
+  background: linear-gradient(to bottom, #a91c1c 0%, #7c1212 100%);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+}
+.start-menu-sep {
+  height: 1px; margin: 4px 8px;
+  background: #e1e8ed;
+}
+
+/* ========== Step 7: File Manager Styles ========== */
+.fm-toolbar {
+  display: flex; gap: 4px; padding: 6px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #d5dfeb;
+  flex-shrink: 0;
+}
+.fm-tb-btn {
+  padding: 3px 10px;
+  font-family: var(--font); font-size: var(--font-size);
+  background: #fbfbfb;
+  border: 1px solid #b9b9b9;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.fm-tb-btn:hover {
+  background: #eaf6fd;
+  border-color: #3c7fb1;
+}
+.fm-tb-btn:active {
+  background: #d9f0fc;
+}
+.fm-tb-btn:disabled {
+  color: #aaaaaa;
+  border-color: #d0d0d0;
+  background: #f4f4f4;
+  cursor: default;
+}
+.fm-body {
+  display: flex; flex: 1; overflow: hidden;
+  min-height: 0;
+}
+.fm-tree {
+  width: 200px; overflow: auto;
+  border-right: 1px solid #d5dfeb;
+  background: var(--white);
+  padding: 4px;
+  flex-shrink: 0;
+}
+.fm-files {
+  flex: 1; overflow: auto;
+  background: var(--white);
+  padding: 4px;
+}
+.fm-file-item {
+  cursor: pointer; padding: 4px 8px;
+  font-family: var(--font); font-size: var(--font-size);
+  display: flex; align-items: center; gap: 6px;
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+.fm-file-item:hover {
+  background: #eaf6fd;
+  color: #000000;
+}
+
+/* ========== Step 8: Markdown Viewer Styles ========== */
+.markdown-body { padding: 12px; line-height: 1.5; font-family: var(--font); color: #222; }
+.markdown-body h1 { font-size: 20px; margin: 12px 0 8px 0; font-weight: 600; color: #111; }
+.markdown-body h2 { font-size: 16px; margin: 12px 0 6px 0; font-weight: 500; color: #222; }
+.markdown-body p { margin-bottom: 8px; }
+.markdown-body code { background: #f0f4f8; padding: 2px 5px; border-radius: 3px; font-family: monospace; font-size: 11px; }
+.markdown-body pre { background: #f5f7fa; padding: 10px; margin: 10px 0; border: 1px solid #e1e8ed; border-radius: 4px; overflow: auto; }
+
+/* ========== Step 9: Projects Gallery Styles ========== */
+.project-card {
+  width: 280px;
+  border: 1px solid #d3dbe9;
+  background: var(--white);
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  cursor: default;
+}
+.project-card h3 { font-size: 14px; margin-bottom: 6px; font-weight: 600; color: #111; }
+.project-card p { font-size: var(--font-size); margin-bottom: 6px; color: #444; line-height: 1.4; }
+.project-tags { font-size: 10px; color: #6c7a89; margin-top: 6px; font-family: monospace; }
+
+/* ========== Taskbar (Windows 7 Aero Superbar) ========== */
+#taskbar {
+  position: absolute; bottom: 0; left: 0; width: 100%;
+  height: var(--taskbar-height);
+  background: rgba(200, 225, 245, 0.25);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 -2px 10px rgba(0,0,0,0.1);
+  display: flex; align-items: center; padding: 0 10px;
+  z-index: 10000;
+}
+#tb-apps {
+  display: flex; flex: 1; overflow: hidden; align-items: center;
+}
+.tb-app-btn {
+  font-family: var(--font);
+  font-size: var(--font-size);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  height: 32px;
+  padding: 0 12px;
+  margin-right: 4px;
+  cursor: pointer;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.tb-app-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 8px rgba(255,255,255,0.25);
+}
+.tb-app-btn.active {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 0 10px rgba(0, 120, 215, 0.4);
+  position: relative;
+}
+.tb-app-btn.active::after {
+  content: "";
+  position: absolute; bottom: 0; left: 4px; right: 4px; height: 2.5px;
+  background: #4cc2ff;
+  box-shadow: 0 0 4px #4cc2ff;
+  border-radius: 1px;
+}
+
+#sys-tray {
+  margin-left: auto; display: flex; align-items: center; gap: 8px;
+  font-family: var(--font); font-size: var(--font-size); color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+#clock { font-weight: 400; }
+
+/* Custom glowing Start Orb */
+#start-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: radial-gradient(circle at center, #6cb7f5 0%, #206ab0 70%, #0d4880 100%);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.5), 0 0 0 2px rgba(0,0,0,0.1);
+  font-size: 0;
+  color: transparent;
+  cursor: pointer;
+  outline: none;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  flex-shrink: 0;
+  margin-right: 12px;
+  position: relative;
+}
+#start-btn:hover {
+  background: radial-gradient(circle at center, #8ecbff 0%, #2b84d4 70%, #105ba2 100%);
+  box-shadow: 0 2px 8px rgba(0, 120, 215, 0.6), inset 0 1px 0 rgba(255,255,255,0.6), 0 0 0 2px rgba(0, 120, 215, 0.2);
+  transform: scale(1.05);
+}
+#start-btn:active {
+  background: radial-gradient(circle at center, #1b538c 0%, #0c3660 100%);
+  transform: scale(0.95);
+}
+#start-btn::before {
+  content: "";
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
+  display: block;
+}
+
+/* ========== New Apps Styles ========== */
+
+/* Calculator */
+.calc-btn {
+  font-family: var(--font); font-size: 13px;
+  padding: 4px; background: #fbfbfb;
+  border: 1px solid #b9b9b9;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center; user-select: none;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.calc-btn:hover {
+  background: #eaf6fd;
+  border-color: #3c7fb1;
+}
+.calc-btn:active {
+  background: #d9f0fc;
+}
+
+/* Notepad */
+.notepad-menubar {
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 6px; background: #f0f0f0;
+  border-bottom: 1px solid #d5dfeb;
+  flex-shrink: 0;
+}
+.notepad-menu-item {
+  padding: 3px 8px; cursor: pointer; font-family: var(--font);
+  font-size: var(--font-size);
+  border-radius: 3px;
+  transition: background-color 0.1s;
+}
+.notepad-menu-item:hover {
+  background: #eaf6fd;
+  color: #000000;
+}
+.notepad-textarea {
+  flex: 1; resize: none; border: none; outline: none;
+  padding: 10px; font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 12px; background: var(--white); color: #111;
+  min-height: 0;
+}
+
+/* System Properties */
+.sysinfo-tabs {
+  display: flex; border-bottom: 1px solid #d5dfeb;
+  padding: 6px 6px 0 6px; background: #f0f0f0; gap: 2px;
+}
+.sysinfo-tab {
+  padding: 4px 16px; cursor: pointer; font-family: var(--font);
+  font-size: var(--font-size); border: 1px solid #d5dfeb;
+  border-bottom: none; border-radius: 4px 4px 0 0; background: #e1e4e6;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+.sysinfo-tab:hover {
+  background: #eaf6fd;
+}
+.sysinfo-tab.active {
+  background: var(--white); border-color: #d5dfeb; border-bottom: 1px solid var(--white);
+  font-weight: 500;
+  margin-bottom: -1px;
+}
+.sysinfo-body {
+  flex: 1; padding: 12px; overflow: auto;
+  background: var(--white); font-family: var(--font); font-size: var(--font-size);
+  color: #333;
+}
+.sysinfo-body h3 { font-size: 15px; margin-bottom: 10px; color: #111; }
+
+/* Paint */
+.paint-toolbar {
+  display: flex; align-items: center; gap: 4px;
+  padding: 6px; background: #f0f0f0;
+  border-bottom: 1px solid #d5dfeb;
+  flex-shrink: 0;
+}
+.paint-tbtn {
+  padding: 4px 8px; font-family: var(--font); font-size: 12px;
+  background: #fbfbfb; border: 1px solid #b9b9b9;
+  border-radius: 3px;
+  cursor: pointer; user-select: none;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.paint-tbtn:hover {
+  background: #eaf6fd;
+  border-color: #3c7fb1;
+}
+.paint-tbtn:active {
+  background: #d9f0fc;
+}
+.paint-tbtn.active {
+  border-color: #3c7fb1;
+  background: #d9f0fc;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+.paint-palette {
+  display: flex; gap: 3px; padding: 6px;
+  background: #f0f0f0; border-bottom: 1px solid #d5dfeb;
+  flex-shrink: 0;
+}
+.paint-color {
+  width: 22px; height: 22px; border: 1px solid #a0a0a0;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.paint-color:hover {
+  transform: scale(1.08);
+}
+.paint-color.selected {
+  border: 2px solid #3c7fb1;
+  box-shadow: 0 0 4px rgba(60, 127, 177, 0.6);
+}
+.paint-canvas {
+  flex: 1; cursor: crosshair; background: #fff;
+  min-height: 0;
+}
+
+/* CD Player */
+.cd-btn {
+  padding: 4px 14px; font-size: 12px;
+  font-family: var(--font);
+  background: #fbfbfb; border: 1px solid #b9b9b9;
+  border-radius: 3px;
+  cursor: pointer; user-select: none;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.cd-btn:hover {
+  background: #eaf6fd;
+  border-color: #3c7fb1;
+}
+.cd-btn:active {
+  background: #d9f0fc;
+}
+
+/* ========== Step 10: Overlay & Login Screens ========== */
 #login-overlay {
   position: fixed; inset: 0; z-index: 99998;
-  background: var(--desktop-bg); display: flex;
-  align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 30%, #3a759e 0%, #173d59 55%, #091a26 100%);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
 #login-dialog {
   background: var(--silver); border: var(--border-window);
@@ -132,99 +631,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
 #login-body label { display: flex; align-items: center; gap: 8px; }
 #login-body input {
   flex: 1; padding: 2px 4px; font-family: var(--font); font-size: var(--font-size);
-  border: var(--border-input); background: var(--white);
+  border: 1px solid rgba(0,0,0,0.15); background: var(--white);
 }
 #login-btns { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
-
-/* ========== Step 5: Desktop Icon Styles ========== */
-.desktop-icon {
-  display: flex; flex-direction: column; align-items: center;
-  width: 72px; padding: 4px; cursor: pointer; text-align: center;
-  color: white; font-family: var(--font); font-size: var(--font-size);
-  user-select: none;
-}
-.desktop-icon:hover { background: rgba(255,255,255,0.1); }
-.desktop-icon-img { font-size: 32px; }
-#desktop-icons {
-  position: absolute; top: 16px; left: 16px;
-  display: flex; flex-direction: column; flex-wrap: wrap; gap: 8px;
-}
-
-/* ========== Step 6: Window Content Area ========== */
-.win95-content {
-  flex: 1; overflow: auto;
-  background: var(--white);
-  border: 2px inset var(--silver-dark);
-  margin: 2px; padding: 4px;
-}
-
-/* ========== Step 6.5: Start Menu Styles ========== */
-#start-menu {
-  position: absolute; bottom: var(--taskbar-height); left: 0;
-  background: var(--silver); border: var(--border-outset);
-  box-shadow: 4px 4px 0 var(--darkest);
-  z-index: 20000; min-width: 200px;
-  font-family: var(--font); font-size: var(--font-size);
-}
-.start-menu-item { padding: 6px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-.start-menu-item:hover { background: var(--title-active); color: var(--title-active-text); }
-.start-menu-sep { height: 2px; margin: 4px 8px; border-top: 1px inset var(--silver-dark); border-bottom: 1px outset var(--white); }
-
-/* ========== Step 7: File Manager Styles ========== */
-.fm-toolbar {
-  display: flex; gap: 4px; padding: 4px;
-  background: var(--silver);
-  border-bottom: 2px inset var(--silver-dark);
-  flex-shrink: 0;
-}
-.fm-tb-btn {
-  padding: 2px 8px;
-  font-family: var(--font); font-size: var(--font-size);
-  background: var(--silver);
-  border: 1px outset var(--white);
-  cursor: pointer;
-}
-.fm-tb-btn:active { border: 1px inset var(--silver-dark); }
-.fm-tb-btn:disabled {
-  color: var(--silver-dark);
-  border: 1px solid var(--silver-dark);
-  cursor: default;
-}
-.fm-body {
-  display: flex; flex: 1; overflow: hidden;
-  min-height: 0;
-}
-.fm-tree {
-  width: 200px; overflow: auto;
-  border-right: 2px inset var(--silver-dark);
-  background: var(--white);
-  padding: 2px;
-  flex-shrink: 0;
-}
-.fm-files {
-  flex: 1; overflow: auto;
-  background: var(--white);
-  padding: 2px;
-}
-.fm-file-item {
-  cursor: pointer; padding: 2px 4px;
-  font-family: var(--font); font-size: var(--font-size);
-  display: flex; align-items: center; gap: 4px;
-}
-.fm-file-item:hover {
-  background: var(--title-active);
-  color: var(--title-active-text);
-}
-
-/* ========== Step 8: Markdown Viewer Styles ========== */
-.markdown-body { padding: 8px; line-height: 1.5; }
-.markdown-body h1 { font-size: 18px; margin: 8px 0; }
-.markdown-body h2 { font-size: 14px; margin: 8px 0; }
-.markdown-body code { background: #eee; padding: 1px 4px; }
-.markdown-body pre { background: #eee; padding: 8px; margin: 8px 0; }
-
-/* ========== Step 9: Projects Gallery Styles ========== */
-.project-card { width: 280px; border: 1px inset var(--silver-dark); background: var(--white); padding: 8px; cursor: default; }
-.project-card h3 { font-size: 13px; margin-bottom: 4px; }
-.project-card p { font-size: var(--font-size); margin-bottom: 4px; line-height: 1.4; }
-.project-tags { font-size: 10px; color: var(--silver-dark); margin-top: 4px; }

@@ -5,9 +5,7 @@ pub struct ProjectsGallery;
 
 impl ProjectsGallery {
     pub fn open(document: &web_sys::Document) {
-        let id = crate::app_state::with_wm(|wm| {
-            wm.create_window("projects", "Projects Gallery", 650, 450)
-        });
+        let id = crate::app_state::create_window("projects", "Projects Gallery", 650, 450);
 
         let content = crate::app_state::with_wm(|wm| {
             wm.get_content(id).expect("window content not found")
@@ -22,8 +20,8 @@ impl ProjectsGallery {
             </div>
             <div id="gallery-cards" style="padding:8px;display:flex;flex-wrap:wrap;gap:12px;overflow-y:auto;height:calc(100% - 42px);align-content:flex-start;">
                 <div class="project-card" data-tags="rust web">
-                    <h3>Win95 OS Desktop</h3>
-                    <p>A Windows 95-themed desktop environment in the browser — built with Rust WASM.</p>
+                    <h3>System 95 Desktop</h3>
+                    <p>A retro 95-themed desktop environment in the browser — built with Rust WASM.</p>
                     <div class="project-tags">Rust, WASM, CSS</div>
                 </div>
                 <div class="project-card" data-tags="rust systems">
@@ -99,6 +97,6 @@ impl ProjectsGallery {
                 }
             }
         }
-        filter_cb.forget();
+        crate::app_state::store_closure(filter_cb);
     }
 }

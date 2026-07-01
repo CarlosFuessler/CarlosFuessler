@@ -1,10 +1,8 @@
 pub struct ContactApp;
 
 impl ContactApp {
-    pub fn open(document: &web_sys::Document) {
-        let id = crate::app_state::with_wm(|wm| {
-            wm.create_window("contact", "Contact", 400, 250)
-        });
+    pub fn open(_document: &web_sys::Document) {
+        let id = crate::app_state::create_window("contact", "Contact", 400, 250);
 
         let content = crate::app_state::with_wm(|wm| {
             wm.get_content(id).expect("window content not found")

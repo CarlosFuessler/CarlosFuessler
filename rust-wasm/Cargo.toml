@@ -15,14 +15,15 @@ wasm-bindgen-futures = "0.4"
 web-sys = { version = "0.3", features = [
     "Document", "Element", "Window", "HtmlElement", "MouseEvent",
     "KeyboardEvent", "HtmlDivElement", "Node", "EventTarget",
-    "console", "DomRect", "HtmlInputElement",
+    "console", "CssStyleDeclaration", "DomRect", "HtmlInputElement",
     "HtmlButtonElement", "Storage",
     "HtmlCollection", "DomTokenList", "Location",
-    "Response",
+    "Response", "HtmlTextAreaElement", "HtmlCanvasElement",
+    "CanvasRenderingContext2d", "NodeList",
 ] }
 js-sys = "0.3"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 pulldown-cmark = "0.11"
 
-[workspace]
+

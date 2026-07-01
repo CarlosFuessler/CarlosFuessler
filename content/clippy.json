@@ -1,0 +1,14 @@
+{
+  "step0": {
+    "text": "Hi! I'm Clippy. Let's explore Carlos' portfolio! Double-click the <b>My PC</b> icon on the desktop to read the <b>About Me</b> section.",
+    "btn": "Skip Tour"
+  },
+  "step1": {
+    "text": "Excellent! You opened My PC. Here you can read about Carlos.<br/><br/>Next, let's see his work! Open the <b>Projects Gallery</b> from the Start Menu.",
+    "btn": "Skip Tour"
+  },
+  "step2": {
+    "text": "Wow, look at all these cool projects! Carlos has built systems tooling, web apps, and this retro desktop.<br/><br/>Now you're ready to explore on your own. Have fun!",
+    "btn": "Close"
+  }
+}

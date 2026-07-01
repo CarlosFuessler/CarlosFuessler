@@ -153,7 +153,6 @@ pub fn launch_app(document: &web_sys::Document, app: &str) {
         "snake" => crate::apps::snake::SnakeApp::open(document),
         "sysinfo" => crate::apps::sysinfo::SysInfoApp::open(document),
         "paint" => crate::apps::paint::PaintApp::open(document),
-        "cdplayer" => crate::apps::cdplayer::CDPlayerApp::open(document),
         "help" => crate::markdown::MarkdownViewer::open(document, "Help", "content/about/about.md"),
         "lockout" => trigger_lockout(document),
         _ => { crate::app_state::create_window(app, app, 400, 300); }

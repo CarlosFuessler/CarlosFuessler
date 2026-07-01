@@ -1,0 +1,3 @@
+[workspace]
+members = ["rust-wasm", "serve"]
+resolver = "2"

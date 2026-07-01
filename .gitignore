@@ -1,9 +1,13 @@
-target/
-/pkg
 .superpowers/
 .agents/
 node_modules/
+.zig-cache/
+zig-out/
 /docs
+
+# Rust
+target/
+/pkg
 
 # macOS
 .DS_Store
